@@ -1,0 +1,24 @@
+#!/bin/bash
+if [[ $(realpath $0) =~ ^(.*)/([^/]+)$ ]]; then
+        WORKDIR=${BASH_REMATCH[1]}
+fi
+source ${WORKDIR}/mod.core
+source ${WORKDIR}/mod.vals
+
+driver() {
+	case "${1}" in # switch
+		params)
+			for PARAM in ${INPUTS[@]}; do
+				printf "%s\n" "${PARAM}"
+			done
+		;;
+		keys)
+			valkeys
+		;;
+		*) # validate inputs here before run?
+			if [[ -n "${APIHOST}" ]]; then
+				run "${@}" | jq --tab .
+			fi
+		;;
+	esac
+}
