@@ -2,23 +2,28 @@ body {
 	background: #181818;
 }
 
-table {
-	width: 10%;
-	margin: 0 auto;
-	border: 0px solid;
-	border-collapse: collapse;
-}
-
-td {
-	padding: 10px;
-}
-
 #tableborder {
 	display: table;
 	margin: 0 auto;
-	border-radius: 10px;
-	border-width: 3px;
-	border: 4px solid #03a9f4;
+	border-width: 8px;
+	border-style: solid;
+	border-color: #a5d6a7;
+	border-radius: 20px;
+}
+
+table#probes {
+	width: 10%;
+	margin: 0 auto;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #81c784;
+	border-spacing: 20px;
+	border-collapse: separate;
+}
+table#probes > tr > td {
+	padding: 0px;
+	border-width: 0px;
+	border-style: solid;
 	border-color: #81c784;
 }
 
@@ -26,13 +31,13 @@ table.probe {
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
-	border: 0px solid #ff0000;
+	border-width: 2;
 	border-collapse: collapse;
 	font-family: "Courier New", Courier, monospace;
 }
 table.probe td {
+	padding: 0px;
 	text-align: center;
-	padding: 4px;
 	font-size: 20px;
 }
 table.probe td.probe-status {
@@ -46,10 +51,10 @@ div.unknown {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-width: 4px;
 	border-style: solid;
-	border-width: 3px;
 	border-radius: 10px;
-	padding: 0px;
+	padding: 10px;
 }
 
 div.healthy {
@@ -62,7 +67,7 @@ div.broken {
 	background: #e57373;
 }
 
-.unknown {
+div.unknown {
 	border-color: #e0e0e0;
 	background: #bdbdbd;
 }
