@@ -10,8 +10,7 @@ div#tableborder {
 	border-radius: 20px;
 }
 div.border-broken {
-	/*border-color: #ef9a9a;*/
-	border-color: #f44336;
+	border-color: #e57373;
 }
 div.border-healthy {
 	border-color: #a5d6a7;
@@ -36,8 +35,7 @@ table#probes td.header-healthy {
 table#probes td.header-broken {
 	font-size: 20px;
 	font-weight: bold;
-	color: #f44336;
-	/*color: #ef9a9a;*/
+	color: #e57373;
 }
 table#probes > tbody > tr > td {
 	padding: 0px;
