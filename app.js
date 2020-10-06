@@ -5,8 +5,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
-var data = [];
+var os = require("os");
 
+var data = [];
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -30,7 +31,12 @@ app.post('/probes', (req, res) => {
 
 app.get('/probes', (req, res) => {
 	console.log('[ GET ] /probes');
+	var hostname = os.hostname();
 	let items = {
+		server: {
+			name: hostname,
+			address: req.headers.host
+		},
 		items: data
 	};
 	res.status(200).send(items);

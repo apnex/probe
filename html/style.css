@@ -2,40 +2,59 @@ body {
 	background: #181818;
 }
 
-#tableborder {
+div#tableborder {
 	display: table;
 	margin: 0 auto;
 	border-width: 8px;
 	border-style: solid;
-	border-color: #a5d6a7;
 	border-radius: 20px;
 }
+div.border-broken {
+	/*border-color: #ef9a9a;*/
+	border-color: #f44336;
+}
+div.border-healthy {
+	border-color: #a5d6a7;
+}
 
+/* app server structure */
 table#probes {
-	width: 10%;
+	width: 100%;
 	margin: 0 auto;
 	border-width: 0px;
 	border-style: solid;
-	border-color: #81c784;
+	border-color: #0000ff;
 	border-spacing: 20px;
 	border-collapse: separate;
+	font-family: "Courier New", Courier, monospace;
 }
-table#probes > tr > td {
+table#probes td.header-healthy {
+	font-size: 20px;
+	font-weight: bold;
+	color: #a5d6a7;
+}
+table#probes td.header-broken {
+	font-size: 20px;
+	font-weight: bold;
+	color: #f44336;
+	/*color: #ef9a9a;*/
+}
+table#probes > tbody > tr > td {
 	padding: 0px;
+	text-align: center;
 	border-width: 0px;
 	border-style: solid;
-	border-color: #81c784;
+	border-color: #0000ff;
 }
 
+/* probe structure */
 table.probe {
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
-	border-width: 2;
 	border-collapse: collapse;
-	font-family: "Courier New", Courier, monospace;
 }
-table.probe td {
+table.probe > tbody > tr > td {
 	padding: 0px;
 	text-align: center;
 	font-size: 20px;
@@ -45,6 +64,7 @@ table.probe td.probe-status {
 	font-weight: bold;
 }
 
+/* probe health */
 div.healthy,
 div.broken,
 div.unknown {
@@ -56,17 +76,14 @@ div.unknown {
 	border-radius: 10px;
 	padding: 10px;
 }
-
 div.healthy {
-	border-color: #81c784;
+	border-color: #a5d6a7;
 	background: #66bb6a;
 }
-
 div.broken {
 	border-color: #ef9a9a;
 	background: #e57373;
 }
-
 div.unknown {
 	border-color: #e0e0e0;
 	background: #bdbdbd;
