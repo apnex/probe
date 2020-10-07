@@ -46,7 +46,7 @@ run() {
 		echo "${BODY}"
 		apiPost "${URL}" "${BODY}"
 	else
-		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.join <probe.name> <probe.endpoint> ")] " 1>&2
+		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.create <probe.name> <probe.endpoint> ")] " 1>&2
 	fi
 }
 

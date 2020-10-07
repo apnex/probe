@@ -4,8 +4,9 @@ if [[ $0 =~ ^(.*)/([^/]+)$ ]]; then
 	CALLED="${BASH_REMATCH[2]}"
 fi
 
-## cli name
+## container name
 CNAME="probe"
+CLIENTRY="/root/probe/cli/mod.command"
 
 ## list local shell env variables to be passed to container here
 LENV=()
@@ -53,9 +54,13 @@ cstart() {
 			DSTRING+=" -e ${ITEM}"
 		fi
 	done
-	DSTRING+=" -v ${PWD}:/files"
+	#DSTRING+=" -v ${PWD}:/files"
 	docker rm -v $(docker ps -qa -f name=${CNAME} -f status=exited) 2>/dev/null
-	docker run -itd --name ${CNAME} ${DSTRING} --entrypoint=/bin/sh apnex/${CNAME} 1>&2
+	#docker run -itd --name ${CNAME} ${DSTRING} --entrypoint=/bin/sh apnex/${CNAME} 1>&2
+	docker run -d -P --net host \
+		--name ${CNAME} \
+		${DSTRING} \
+	"apnex/${CNAME}"
 }
 
 ## handle autocomplete - don't attach psuedo-tty
@@ -65,7 +70,7 @@ cexec() {
 
 ## exec normal user commands
 texec() {
-	docker exec -t ${CNAME} ${CNAME} "${@}"
+	docker exec -t ${CNAME} ${CLIENTRY} "${@}"
 }
 
 # main
@@ -88,7 +93,7 @@ case "${1}" in
 			cstart
 		fi
 		if [[ "${1}" = "ac" ]]; then
-			cexec "${@:2}" ## called from vmw.complete
+			cexec "${@:2}" ## called from bash.complete
 		else
 			texec "${@}" ## called from shell
 		fi

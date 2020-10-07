@@ -1,6 +1,10 @@
 #!/bin/bash
 if [[ $(realpath $0) =~ ^(.*)/([^/]+)$ ]]; then
         WORKDIR=${BASH_REMATCH[1]}
+	FILE=${BASH_REMATCH[2]}
+	if [[ ${FILE} =~ ^[^.]+[.](.+)[.]sh$ ]]; then
+		TYPE=${BASH_REMATCH[1]}
+	fi
 fi
 STATEDIR=${WORKDIR}/drv/state
 JQDIR=${WORKDIR}/tpl
@@ -105,3 +109,29 @@ function drv {
 	local DRIVER=${1}
 	printf "${WORKDIR}/drv/drv.${DRIVER}.sh"
 }
+
+# detect available cmds
+commands() {
+	#echo "-- [COMMANDS] --"
+	#printf "%s" "list"
+	echo "list"
+	for FILE in ${WORKDIR}/cmd.*.sh; do
+		if [[ $FILE =~ cmd[.](.+)[.]sh ]]; then
+			#printf " %s" "${BASH_REMATCH[1]}"
+			echo "${BASH_REMATCH[1]}"
+		fi
+	done
+	exit 1
+}
+if [[ -n "${1}" && ${FILE} == "mod.command" ]]; then
+	case "${1}" in
+		list) ## list commands
+			commands
+		;;
+		*) ## execute command
+			if [ -f "${WORKDIR}/cmd.${1}.sh" ]; then
+				eval "${WORKDIR}/cmd.${1}.sh ${@:2}"
+			fi
+		;;
+	esac
+fi
