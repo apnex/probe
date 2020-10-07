@@ -20,7 +20,7 @@ mv probe-cli /usr/bin/
 ```
 
 #### [OPTIONAL] set server listening port
-`PROBE_SERVER_PORT` is the server listening tcp port  
+`PROBE_SERVER_PORT` is the server listening TCP port  
 Defaults to `4040` if not specified
 ```
 export PROBE_SERVER_PORT=4040
@@ -45,7 +45,7 @@ apnex/probe
 NOTE: It is preferable to use `--net host` so that the UI reports the correct hostname of the server  
 
 **Where:**  
-- `PROBE_SERVER_PORT` is the server listening tcp port. Defaults to `4040` if not specified  
+- `PROBE_SERVER_PORT` is the server listening TCP port. Defaults to `4040` if not specified  
 
 Then issue one or more `docker exec` commands:
 ```
