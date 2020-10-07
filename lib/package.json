@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
-		"got": "*",
-		"express": "*"
+		"default-gateway": "^6.0.2",
+		"express": "*",
+		"got": "*"
 	}
 }

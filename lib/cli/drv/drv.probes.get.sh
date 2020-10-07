@@ -5,7 +5,10 @@ fi
 source ${WORKDIR}/mod.driver
 
 # inputs
-APIHOST="http://localhost:4040"
+APIHOST="http://localhost"
+if [[ -n "${PROBE_SERVER_PORT}" ]]; then
+	APIHOST+=":${PROBE_SERVER_PORT}"
+fi
 ITEM="probes"
 INPUTS=()
 
@@ -19,11 +22,13 @@ apiGet() {
 # run
 run() {
 	URL="${APIHOST}"
-	URL+="/${ITEM}"
-	if [[ -n "${URL}" ]]; then
+	if [[ -n "${1}" ]]; then
+		URL+="/${ITEM}/${1}"
 		printf "[$(cgreen "INFO")]: api [$(cgreen "list")] ${ITEM} [$(cgreen "${URL}")]... " 1>&2
 		echo "[$(ccyan "DONE")]" 1>&2
-		apiGet "${URL}"
+		apiGet "${URL}" | jq --tab .
+	else
+		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.get <probeName> ")] " 1>&2
 	fi
 }
 

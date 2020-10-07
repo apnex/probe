@@ -1,0 +1,96 @@
+#!/bin/bash
+if [[ $0 =~ ^(.*)/([^/]+)$ ]]; then
+	WORKDIR="${BASH_REMATCH[1]}"
+	CALLED="${BASH_REMATCH[2]}"
+fi
+
+## cli name
+CNAME="probe"
+
+## list local shell env variables to be passed to container here
+LENV=()
+#LENV+=("VMWUSER")
+#LENV+=("VMWPASS")
+
+## return specific running container env value
+CENV=()
+cget() {
+	for ITEM in ${CENV[@]}; do
+		if [[ ${ITEM} =~ ([0-9a-zA-Z]+)=(.*)\" ]]; then
+			if [[ "${BASH_REMATCH[1]}" == "${1}" ]]; then
+				printf "${BASH_REMATCH[2]}"
+			fi
+		fi
+	done
+}
+
+## compare defined local values against running container
+lget() {
+	local PASS=1
+	for ITEM in ${LENV[@]}; do
+		local LVAL=${!ITEM}
+		local CVAL=$(cget ${ITEM})
+		if [[ -n ${LVAL} && ${LVAL} != ${CVAL} ]]; then
+			PASS=0
+		fi
+	done
+	printf ${PASS}
+}
+
+## force stop and clear any dangling containers
+cstop() {
+	docker rm -f ${CNAME} 2>/dev/null
+	docker rm -v $(docker ps -qa -f name=${CNAME} -f status=exited) 2>/dev/null
+}
+
+## start new instance of container with fresh env vars
+cstart() {
+	## build env string
+	local DSTRING
+	for ITEM in ${LENV[@]}; do
+		local LVAL=${!ITEM}
+		if [[ -n ${LVAL} ]]; then
+			DSTRING+=" -e ${ITEM}"
+		fi
+	done
+	DSTRING+=" -v ${PWD}:/files"
+	docker rm -v $(docker ps -qa -f name=${CNAME} -f status=exited) 2>/dev/null
+	docker run -itd --name ${CNAME} ${DSTRING} --entrypoint=/bin/sh apnex/${CNAME} 1>&2
+}
+
+## handle autocomplete - don't attach psuedo-tty
+cexec() {
+	docker exec ${CNAME} ${CNAME} "${@}"
+}
+
+## exec normal user commands
+texec() {
+	docker exec -t ${CNAME} ${CNAME} "${@}"
+}
+
+# main
+case "${1}" in
+	'stop') ## force stop
+		printf "[apnex/${CNAME}] stopping\n" 1>&2
+		cstop
+	;;
+	*) # launch + persist (run + exec)
+		RUNNING=$(docker ps -q -f name="${CNAME}")
+		if [[ -n "$RUNNING" ]]; then
+			CENV=$(docker inspect -f "{{json .Config.Env }}" ${CNAME} | tr "," "\n")
+			if [[ $(lget) == 0 ]]; then
+				# env match failed, restart container with new env
+				cstop
+				cstart
+			fi
+		else
+			printf "[apnex/${CALLED}] not running - now starting\n" 1>&2
+			cstart
+		fi
+		if [[ "${1}" = "ac" ]]; then
+			cexec "${@:2}" ## called from vmw.complete
+		else
+			texec "${@}" ## called from shell
+		fi
+	;;
+esac
