@@ -21,4 +21,6 @@ RUN	apk --no-cache add \
 		util-linux \
 		curl \
 		jq
-ENTRYPOINT ["/root/probe/server.js"]
+COPY probe-cli /root/
+COPY entry.sh /root/
+ENTRYPOINT ["/root/entry.sh"]

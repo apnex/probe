@@ -28,7 +28,7 @@ run() {
 		echo "[$(ccyan "DONE")]" 1>&2
 		apiGet "${URL}" | jq --tab .
 	else
-		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.get <probeName> ")] " 1>&2
+		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.get <probe.name> ")] " 1>&2
 	fi
 }
 

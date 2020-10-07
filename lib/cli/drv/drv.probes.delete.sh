@@ -29,7 +29,7 @@ run() {
 		echo "[$(ccyan "DONE")]" 1>&2
 		apiDelete "${URL}"
 	else
-		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.delete <probeName> ")] " 1>&2
+		echo "[$(corange "ERROR")]: command usage: [$(ccyan " probes.delete <probe.name> ")] " 1>&2
 	fi
 }
 
