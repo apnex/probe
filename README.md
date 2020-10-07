@@ -4,11 +4,11 @@
 It provides a UI of configured tiles to provide real-time visualisation of configured probes.  
 Suitable for for quickly validating microservice health or configured firewall rules.  
 
-<image>
+![probe-status](probe-status.png)
 
 Probes can be configured either directly via the provided REST API or the included CLI.  
 
-## Install
+## TLDR; Install
 ### via Docker: Shell Integration
 Builds a shell command that links to the docker container.  
 Requires docker installed on your system.  
