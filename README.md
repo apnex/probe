@@ -1,7 +1,7 @@
 # `probe`
 
 `probe` is an API service that performs active healthchecks of any `http/https` service.  
-It provides a UI of configured tiles to provide real-time visualisation of configured probes.  
+It provides a UI of status tiles to provide real-time visualisation of configured probes.  
 Suitable for quickly validating microservice health or configured firewall rules.  
 
 ![probe-status](probe-status.gif)
@@ -57,6 +57,12 @@ Clean up docker container when done:
 docker rm -f probe
 ```
 
+## PROBE TYPES
+#### HTTP / HTTPS
+Generates a HTTP HEAD request to the configured probe endpoint  
+Default polling interval = `5 seconds`  
+Default retries on failure = `2`  
+  
 ## USAGE
 `probe` includes a CLI for terminal access to probe configuration  
 The following examples assume you have configured **Shell Integration**  
