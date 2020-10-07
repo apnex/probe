@@ -2,7 +2,7 @@
 
 `probe` is an API service that performs active healthchecks of any `http/https` service.  
 It provides a UI of configured tiles to provide real-time visualisation of configured probes.  
-Suitable for for quickly validating microservice health or configured firewall rules.  
+Suitable for quickly validating microservice health or configured firewall rules.  
 
 ![probe-status](probe-status.png)
 
