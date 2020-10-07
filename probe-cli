@@ -6,18 +6,17 @@ fi
 
 ## container name
 CNAME="probe"
-CLIENTRY="/root/probe/cli/mod.command"
+CLIENTRY="cli" # symlink in container
 
 ## list local shell env variables to be passed to container here
 LENV=()
-#LENV+=("VMWUSER")
-#LENV+=("VMWPASS")
+LENV+=("PROBE_SERVER_PORT")
 
 ## return specific running container env value
 CENV=()
 cget() {
 	for ITEM in ${CENV[@]}; do
-		if [[ ${ITEM} =~ ([0-9a-zA-Z]+)=(.*)\" ]]; then
+		if [[ ${ITEM} =~ ([_0-9a-zA-Z]+)=(.*)\" ]]; then
 			if [[ "${BASH_REMATCH[1]}" == "${1}" ]]; then
 				printf "${BASH_REMATCH[2]}"
 			fi
@@ -56,7 +55,6 @@ cstart() {
 	done
 	#DSTRING+=" -v ${PWD}:/files"
 	docker rm -v $(docker ps -qa -f name=${CNAME} -f status=exited) 2>/dev/null
-	#docker run -itd --name ${CNAME} ${DSTRING} --entrypoint=/bin/sh apnex/${CNAME} 1>&2
 	docker run -d -P --net host \
 		--name ${CNAME} \
 		${DSTRING} \
@@ -65,7 +63,7 @@ cstart() {
 
 ## handle autocomplete - don't attach psuedo-tty
 cexec() {
-	docker exec ${CNAME} ${CNAME} "${@}"
+	docker exec ${CNAME} ${CLIENTRY} "${@}"
 }
 
 ## exec normal user commands

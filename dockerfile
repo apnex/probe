@@ -20,7 +20,8 @@ RUN	apk --no-cache add \
 		bash \
 		util-linux \
 		curl \
-		jq
+		jq \
+	&& ln -s /root/probe/cli/mod.command /usr/bin/cli
 COPY probe-cli /root/
 COPY entry.sh /root/
 ENTRYPOINT ["/root/entry.sh"]

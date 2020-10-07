@@ -113,12 +113,10 @@ function drv {
 # detect available cmds
 commands() {
 	#echo "-- [COMMANDS] --"
-	#printf "%s" "list"
-	echo "list"
+	echo "$(ccyan "list")"
 	for FILE in ${WORKDIR}/cmd.*.sh; do
 		if [[ $FILE =~ cmd[.](.+)[.]sh ]]; then
-			#printf " %s" "${BASH_REMATCH[1]}"
-			echo "${BASH_REMATCH[1]}"
+			echo "$(ccyan "${BASH_REMATCH[1]}")"
 		fi
 	done
 	exit 1
